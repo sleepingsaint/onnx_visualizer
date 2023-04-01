@@ -1,15 +1,8 @@
+import os
 import onnx
 import argparse
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--onnx", "-o", help="Path to the onnx model")
-parser.add_argument("--port", "-p", default=8081, help="Port to start the server")
-
-
-args = parser.parse_args()
-model_path = args.onnx
 
 
 class ONNXVisualizer:
@@ -73,21 +66,34 @@ class ONNXVisualizer:
         
         self.edges = list(_edges)
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--onnx", "-o", help="Path to the onnx model")
+    parser.add_argument("--port", "-p", default=8081, help="Port to start the server")
 
-onnx_vis = ONNXVisualizer(model_path)
+    args = parser.parse_args()
+    model_path = args.onnx
 
-app = Flask(__name__)
-CORS(app)
+    onnx_vis = ONNXVisualizer(model_path)
 
-@app.route("/")
-def getNodes():
-    return {
-        "nodes": onnx_vis.nodes,
-        "edges": onnx_vis.edges
-    } 
+    app = Flask(__name__)
 
-@app.route("/edges")
-def getEdges():
-    return onnx_vis.edges
+    ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+    app.static_folder = os.path.join(ROOT_PATH, "static")
+    CORS(app)
 
-app.run(debug=True, port=args.port)
+    @app.route("/")
+    def getNodes():
+        return {
+            "nodes": onnx_vis.nodes,
+            "edges": onnx_vis.edges
+        } 
+
+    @app.route("/edges")
+    def getEdges():
+        return onnx_vis.edges
+
+    app.run(debug=True, port=args.port)
+
+if __name__ == "__main__":
+    main()

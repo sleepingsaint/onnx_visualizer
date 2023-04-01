@@ -1,0 +1,30 @@
+import os
+from setuptools import setup, find_packages
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+setup(
+    name = "onnx_vis",
+    version = "0.0.1",
+    author = "sleepingsaint",
+    author_email = "suryasantosh14523@gmail.com",
+    description = ("This package help you visualize the ONNX model graph. Client-Server based architecture lets you share the model, using just a url instead of sharing the entire model."),
+    license = "BSD",
+    keywords = "example documentation tutorial",
+    url = "https://github.com/sleepingsaint/onnx_visualizer",
+    packages=['onnx_vis'],
+    entry_points = {
+        'console_scripts': [
+            'onnx_vis=onnx_vis.onnx_vis:main'
+        ]
+    },
+    long_description=read('README.md'),
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Topic :: Utilities",
+        "License :: OSI Approved :: BSD License",
+    ],
+)
+
+
