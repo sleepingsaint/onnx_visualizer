@@ -6,11 +6,11 @@ def read(fname):
 
 setup(
     name = "onnx_vis",
-    version = "0.0.1",
+    version = "1.0.6",
     author = "sleepingsaint",
     author_email = "suryasantosh14523@gmail.com",
     description = ("This package help you visualize the ONNX model graph. Client-Server based architecture lets you share the model, using just a url instead of sharing the entire model."),
-    license = "BSD",
+    license = "MIT",
     keywords = "example documentation tutorial",
     url = "https://github.com/sleepingsaint/onnx_visualizer",
     packages=['onnx_vis'],
@@ -19,11 +19,16 @@ setup(
             'onnx_vis=onnx_vis.onnx_vis:main'
         ]
     },
+    include_package_data=True,
+    package_data={
+        "onnx_vis": ["onnx_vis/static/*"]
+    },
     long_description=read('README.md'),
+    long_description_content_type="text/markdown",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        # "Development Status :: 3 - Alpha",
         "Topic :: Utilities",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: MIT License",
     ],
 )
 

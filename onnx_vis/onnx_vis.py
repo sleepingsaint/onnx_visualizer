@@ -1,9 +1,8 @@
 import os
 import onnx
 import argparse
-from flask import Flask, send_from_directory
+from flask import Flask
 from flask_cors import CORS
-
 
 class ONNXVisualizer:
     def __init__(self, path) -> None:
@@ -70,6 +69,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--onnx", "-o", help="Path to the onnx model")
     parser.add_argument("--port", "-p", default=8081, help="Port to start the server")
+    parser.add_argument("--ngrok", "-n", action="store_true", default=False, help="Run with ngrok")
 
     args = parser.parse_args()
     model_path = args.onnx
@@ -80,6 +80,7 @@ def main():
 
     ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
     app.static_folder = os.path.join(ROOT_PATH, "static")
+
     CORS(app)
 
     @app.route("/")
@@ -93,7 +94,7 @@ def main():
     def getEdges():
         return onnx_vis.edges
 
-    app.run(debug=True, port=args.port)
+    app.run(port=args.port)
 
 if __name__ == "__main__":
     main()
