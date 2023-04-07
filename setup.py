@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name = "onnx_vis",
-    version = "1.0.7",
+    version = "1.0.9",
     author = "sleepingsaint",
     author_email = "suryasantosh14523@gmail.com",
     description = ("This package help you visualize the ONNX model graph. Client-Server based architecture lets you share the model, using just a url instead of sharing the entire model."),
@@ -32,7 +32,7 @@ setup(
     ],
     install_requires = [
         "onnx",
-        "flask",
+        "Flask",
         "flask-cors"
     ]
 )
