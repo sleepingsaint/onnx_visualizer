@@ -1,7 +1,7 @@
 import os
 import onnx
 import argparse
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 
 class ONNXVisualizer:
@@ -69,7 +69,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--onnx", "-o", help="Path to the onnx model")
     parser.add_argument("--port", "-p", default=8081, help="Port to start the server")
-    parser.add_argument("--ngrok", "-n", action="store_true", default=False, help="Run with ngrok")
 
     args = parser.parse_args()
     model_path = args.onnx
@@ -84,6 +83,10 @@ def main():
     CORS(app)
 
     @app.route("/")
+    def getHomePage():
+        return send_from_directory(app.static_folder, "index.html")
+
+    @app.route("/onnx")
     def getNodes():
         return {
             "nodes": onnx_vis.nodes,

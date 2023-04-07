@@ -31,7 +31,7 @@ Example:
 ```bash
  python3 -m onnx_vis resnet18.onnx -p 63325
 ```
-you can access the visualization on http://127.0.0.1:63325/static/index.html
+you can access the visualization on http://127.0.0.1:63325
 
 
 ## TODO
