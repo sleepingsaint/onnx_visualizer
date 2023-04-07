@@ -8,15 +8,16 @@ import ELK, { ElkNode } from "elkjs/lib/elk.bundled";
 import CustomEdge from "./CustomEdge";
 import { toast } from "react-toastify";
 
+const url = import.meta.env.DEV ? import.meta.env.VITE_BACKEND_HOST : window.location.origin ;
+
 function Container() {
   const reactFlowInstance = useReactFlow();
-
   const { nodes, edges, count, isLayoutDone, updateLayoutStatus, onNodesChange, onEdgesChange } = useStore();
   const nodeTypes = useMemo(() => ({ layerNode: LayerNode }), []);
   const edgeTypes = useMemo(() => ({ layerEdge: CustomEdge }), []);
 
   const { isLoading, error, data } = useQuery<ONNXMetadata>("onnx-data", () =>
-    fetch("http://localhost:8081/").then((res) => res.json())
+    fetch(new URL("onnx", url).href).then((res) => res.json())
   );
 
   useEffect(() => {
@@ -126,7 +127,7 @@ function Container() {
             markerHeight="10"
             orient="auto"
           >
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#f00" />
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8d99ae" />
           </marker>
         </defs>
       </svg>
