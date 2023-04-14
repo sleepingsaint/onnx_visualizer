@@ -37,9 +37,10 @@ you can access the visualization on http://127.0.0.1:63325
 ## TODO
 
 - [x] Make Visualization graph of ONNX Nodes
-- [ ] Add node attributes like kernels shape, bias shape to node metadata
+- [x] Add node attributes like kernels shape, bias shape to node metadata
 - [ ] Add Sidebar to get more detailed information about nodes
 - [ ] Add search and span to node feature
+- [ ] Integrate Serveo.net to the codebase for creating public urls
 
 ## Contribution & Issues
 Contirbution of any kind PR's, Discussions etc. is very much appreciated :). If you face any issues feel free to open a issue. 

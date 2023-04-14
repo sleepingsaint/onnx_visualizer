@@ -1,6 +1,10 @@
 import os
-import onnx
 import argparse
+
+import onnx
+from onnx import numpy_helper
+from onnx.defs import get_schema, OpSchema
+
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 
@@ -13,6 +17,9 @@ class ONNXVisualizer:
         self._initStore()
         self._initNodes()
         self._initEdges()
+    
+    def _getIndex(self, key, type):
+        return int(key.replace(f"{type}:", "")) 
     
     def _initStore(self):
         for idx, node in enumerate(self.model.graph.node):
@@ -34,9 +41,35 @@ class ONNXVisualizer:
             self.nodes.append({
                 "id": f"node:{idx}",
                 "name": node.name,
-                "op": node.op_type
+                "op": node.op_type,
+                "initializers": [],
+                "hasVariableParameter": False
             })
-        
+
+            input_schema = get_schema(node.op_type).inputs
+            for init_idx, inp in enumerate(input_schema):
+                if init_idx >= len(node.input):
+                    break
+                
+                if inp.option == OpSchema.FormalParameterOption.Variadic:
+                    self.nodes[-1]["hasVariableParameter"] = True
+                    break
+
+                key = self.store[node.input[init_idx]]
+                if "initializer" in key:
+                    init_index = self._getIndex(key, "initializer")
+                    init = self.model.graph.initializer[init_index]
+
+                    np_init = numpy_helper.to_array(init)
+                    self.nodes[-1]["initializers"].append({
+                        "name": input_schema[init_idx].name,
+                        "dims": np_init.shape,
+                        "datatype": np_init.dtype.name,
+                        "data": None,
+                    })
+                    if len(init.dims) == 0:
+                        self.nodes[-1]["initializers"][-1]["data"] = np_init.item()
+
         for idx, inp in enumerate(self.model.graph.input):
             self.nodes.append({
                 "id": f"input:{idx}",

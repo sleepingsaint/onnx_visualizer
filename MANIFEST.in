@@ -1,1 +1,2 @@
 include onnx_vis/static/*
+include onnx_vis/static/assets/*
