@@ -27,7 +27,7 @@ function Container() {
           item: {
             id: node.id,
             data: {
-              label: node.op,
+              ...node
             },
             type: "layerNode",
             position: {

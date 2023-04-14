@@ -9,9 +9,10 @@ import {
     EdgeChange,
     applyEdgeChanges
 } from 'reactflow';
+import { ONNXNode } from './types';
 
 interface StoreInterface {
-    nodes: Node[],
+    nodes: Node<ONNXNode>[],
     edges: Edge[],
     count: number,
     isLayoutDone: boolean,
